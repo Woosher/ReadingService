@@ -11,6 +11,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import java.util.Arrays;
 
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
+import static tools.Constants.remote_db_base_url;
 import static tools.Constants.remote_search_base_url;
 
 @RestController
@@ -30,6 +31,22 @@ public class HttpController {
         return result.getBody();
     }
 
+    @RequestMapping(value = base_url + "item", method = GET)
+    public String getCouchDBItem(@RequestParam String id) {
+        final String uri = remote_db_base_url +"/product";
+        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(uri)
+                .queryParam("id", id);
+        ResponseEntity<String> result = getUrl(builder);
+        return result.getBody();
+    }
+
+    @RequestMapping(value = base_url + "items_all", method = GET)
+    public String getCouchDBAllItems() {
+        final String uri = remote_db_base_url +"/allProducts";
+        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(uri);
+        ResponseEntity<String> result = getUrl(builder);
+        return result.getBody();
+    }
 
 
     private ResponseEntity<String> getUrl(   UriComponentsBuilder builder){
